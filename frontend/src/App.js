@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+import Verse from "./Verse"
 
 function App() {
-  return <div>App</div>;
+  return <div>
+    <Verse />
+  </div>;
 }
 
 export default App;
