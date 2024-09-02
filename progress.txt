@@ -1,0 +1,21 @@
+done:
+    - create database to store the book, chapter and verse of a verse text (without including the actual text)
+    - create a backend api to get a random verse from the database
+    - write a fetch on the frontend to request a verse at random from the backend api
+    - implement loading whilst fetching data
+    - write a fetch on the frontend to utilise random verse data to fetch the verse data from bible-api
+    - implement translation into the bible-api fetch
+
+in progress:
+    - 
+
+not done:
+    - create funcitonality for superuser to add a verse to the database
+    - create user register and login
+    - for logged in users, have a favourites list section
+    - allow the user to add a verse to their favourites list
+    - change bible api to a more sophisticated one with more translations
+    - allow the user to alter which translation is fetched
+    - change random verse implementation to daily verse implementation
+    - create a user profile page
+    - implement an email subscription feature
