@@ -16,14 +16,15 @@ function Register() {
             });
 
             // if the response was successful, we return a positive status, otherwise we inform the user of the issue
-            const data = response.json();
+            const data = await response.json();
+            // this checks if the code is between the range 200-299
             if (response.ok) {
                 setMessage(data.message);
             } else {
                 setMessage(data.error);
             }
         } catch (error) {
-            setMessage("Error: ", error);
+            setMessage("Error: ", error.message);
         }
     };
 

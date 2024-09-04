@@ -19,7 +19,7 @@ def register():
     password = data.get("password")
 
     if User.query.filter_by(email=email).first():
-        return jsonify({"error": "A user with that email already exists. Login instead."})
+        return jsonify({"error": "A user with that email already exists. Login instead."}), 409
     
     new_user = User(email=email, password_hash=generate_password_hash(password))
     db.session.add(new_user)
@@ -27,7 +27,8 @@ def register():
 
     login_user(new_user)
 
-    return jsonify({"message": "User registered successfully."})
+    # we have to use HTTP status codes so that the response method on the frontend can work properly
+    return jsonify({"message": "User registered successfully."}), 201
 
 
 @app.route("/login", methods=["POST"])
