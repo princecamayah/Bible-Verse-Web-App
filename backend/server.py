@@ -42,13 +42,13 @@ def login():
     user = User.query.filter_by(email=email).first()
 
     if user is None:
-        return jsonify({"error": "No user found with that email address"})
+        return jsonify({"error": "No user found with that email address"}), 400
     
     if not check_password_hash(user.password_hash, password):
-        return jsonify({"error": "Incorrect password."})
+        return jsonify({"error": "Incorrect password."}), 409
 
     login_user(user)
-    return jsonify({"message": "Login successful"})
+    return jsonify({"message": "Login successful"}), 201
             
 
 def logout():

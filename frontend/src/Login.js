@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState("Hi");
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -15,7 +15,7 @@ function Login() {
                 body: JSON.stringify({ email: email, password: password }),
             });
 
-            const data = response.json();
+            const data = await response.json();
             if (response.ok) {
                 console.log(data);
                 setMessage(data.message);
@@ -24,8 +24,7 @@ function Login() {
                 console.error("Error: ", data.error);
             }
         } catch (error) {
-            setMessage("Error: ", error);
-            console.error("Error: ", error);
+            setMessage("Error: ", error.message);
         }
     };
 
