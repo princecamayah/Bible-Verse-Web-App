@@ -46,7 +46,7 @@ function Verse() {
 
         fetchRandomVerse();
         fetchText();
-    }, [book, chapter, verse]);
+    }, [book, chapter, verse, translation]);
 
     return (
         <div>
