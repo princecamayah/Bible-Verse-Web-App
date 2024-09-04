@@ -12,29 +12,46 @@ function Login() {
             const response = await fetch("/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ "email": email, "password": password }),
+                body: JSON.stringify({ email: email, password: password }),
             });
 
-            const data = response.json()
+            const data = response.json();
             if (response.ok) {
+                console.log(data);
                 setMessage(data.message);
             } else {
                 setMessage(data.error);
+                console.error("Error: ", data.error);
             }
-
         } catch (error) {
             setMessage("Error: ", error);
+            console.error("Error: ", error);
         }
-    }
+    };
 
-    return <div>
-        <h2>Login</h2>
-        <form onSubmit={handleLogin}>
-            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </form>
-        <p>{message}</p>
-    </div>
+    return (
+        <div>
+            <h2>Login</h2>
+            <form onSubmit={handleLogin}>
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                <button type="submit">Login</button>
+            </form>
+            <p>{message}</p>
+        </div>
+    );
 }
 
 export default Login;
