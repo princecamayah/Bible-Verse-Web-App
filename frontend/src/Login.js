@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("Hi");
+    const [message, setMessage] = useState("");
 
     const handleLogin = async (e) => {
         e.preventDefault();
