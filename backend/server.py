@@ -53,9 +53,10 @@ def login():
     return jsonify({"message": "Login successful"}), 201
             
 
+@app.route("/logout", methods=["POST"])
 def logout():
     logout_user()
-    return jsonify({"message": "Successfully logged out."})
+    return jsonify({"message": "Successfully logged out."}), 200
 
 
 @app.route("/api/random_verse", methods=["GET"])
