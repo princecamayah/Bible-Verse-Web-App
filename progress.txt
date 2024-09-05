@@ -5,13 +5,14 @@ done:
     - implement loading whilst fetching data
     - write a fetch on the frontend to utilise random verse data to fetch the verse data from bible-api
     - implement translation into the bible-api fetch
+    - create user register and login
+    - create a logout
 
 in progress:
     - 
 
 not done:
     - create funcitonality for superuser to add a verse to the database
-    - create user register and login
     - for logged in users, have a favourites list section
     - allow the user to add a verse to their favourites list
     - change bible api to a more sophisticated one with more translations
