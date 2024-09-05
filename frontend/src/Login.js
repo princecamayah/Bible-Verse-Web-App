@@ -17,14 +17,14 @@ function Login() {
 
             const data = await response.json();
             if (response.ok) {
-                console.log(data);
+                console.log(data.message);
                 setMessage(data.message);
             } else {
+                console.error(data.error);
                 setMessage(data.error);
-                console.error("Error: ", data.error);
             }
         } catch (error) {
-            setMessage("Error: ", error.message);
+            setMessage("Error trying to log in: ", error.message);
         }
     };
 

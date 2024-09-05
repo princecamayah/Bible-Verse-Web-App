@@ -19,12 +19,14 @@ function Register() {
             const data = await response.json();
             // this checks if the code is between the range 200-299
             if (response.ok) {
+                console.log(data.message);
                 setMessage(data.message);
             } else {
+                console.log(data.error);
                 setMessage(data.error);
             }
         } catch (error) {
-            setMessage("Error: ", error.message);
+            setMessage("Error trying to register: ", error.message);
         }
     };
 
