@@ -12,7 +12,8 @@ def load_user(user_id):
 
 @app.route("/register", methods=["POST"])
 def register():
-    # add redirect if logged in user tries to access register page
+    if current_user.is_authenticated:
+        return jsonify({"error": "You are currently logged into an account. Log out first if you'd like to register for a new account."}), 400
 
     data = request.get_json()
     email = data.get("email")
@@ -33,7 +34,8 @@ def register():
 
 @app.route("/login", methods=["POST"])
 def login():
-    # add redirect if logged in user tries to access login page
+    if current_user.is_authenticated:
+        return jsonify({"error": "You are currently logged into an account. Log out first if you'd like to login to another account."}), 400
 
     data = request.get_json()
     email = data.get("email")
@@ -63,6 +65,13 @@ def get_random_verse():
         return jsonify(random_verse.to_dict())
     else:
         return jsonify({"error": "No verses available"}), 404
+    
+
+@app.route("/api/users", methods=["GET"])
+def get_users():
+    users = User.query.all()
+    user_list = [{"id": user.id, "email": user.email} for user in users]
+    return jsonify(user_list)
     
 
 if __name__ == "__main__":
