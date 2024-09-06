@@ -9,10 +9,13 @@ done:
     - create a logout
 
 in progress:
-    - 
+    - implement a role-based user management system such that normal users can view verses but admins can manage/add/remove verses
+    - manually hardcode a user with the admin role
 
 not done:
     - create funcitonality for superuser to add a verse to the database
+    - create an admin panel such that any current admin can change the role of a registerd user to an admin
+    - create a navbar with register, login, logout and favourites there
     - for logged in users, have a favourites list section
     - allow the user to add a verse to their favourites list
     - change bible api to a more sophisticated one with more translations
