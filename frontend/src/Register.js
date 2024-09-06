@@ -48,7 +48,7 @@ function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    minLength="8"
+                    minLength="4"
                 />
                 <button type="submit">Register</button>
             </form>
