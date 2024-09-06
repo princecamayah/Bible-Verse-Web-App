@@ -5,18 +5,17 @@ function Verse() {
     const [text, setText] = useState("");
     const [reference, setReference] = useState("");
     const [loading, setLoading] = useState(true);
-    
+
     // taken from random_verse api
     const [book, setBook] = useState("");
     const [chapter, setChapter] = useState("");
     const [verse, setVerse] = useState("");
 
     // by default NKJV but user can change it
-    const [translation, setTranslation] = useState("kjv")
-    
+    const [translation, setTranslation] = useState("kjv");
 
     // useEffect causes whatever is contained to run on every render e.g. if the state changes
-    // however, in this case we use a [] to indicate that we only need to render once, since we are just fetching data
+    // however, in this case we use a [] to indicate that we only need to render once, since we are fetching a verse from our database
     useEffect(() => {
         const fetchRandomVerse = async () => {
             try {
@@ -27,31 +26,51 @@ function Verse() {
                 setChapter(data.chapter);
                 setVerse(data.verse);
             } catch (error) {
-                console.error("Error fetching the book, chapter or verse: ", error);
+                console.error(
+                    "Error fetching the book, chapter or verse: ",
+                    error.message
+                );
             }
         };
 
+        fetchRandomVerse();
+    }, []);
+
+    // we have translation in the dependancy array so that if its state changes, the fetchText function is reran.
+    // we also include book, chapter and verse in the dependancy array because otherwise, the fetchText would ONLY run when translation changes meaning that this function will never be ran, but once the fetchRandomVerse function runs, the book, chapter and verse state change therefore needs to run fetchText because of that.
+    useEffect(() => {
         const fetchText = async () => {
             try {
-                const response = await fetch(`https://bible-api.com/${book}+${chapter}:${verse}?translation=${translation}`);
+                const response = await fetch(
+                    `https://bible-api.com/${book}+${chapter}:${verse}?translation=${translation}`
+                );
                 const data = await response.json();
                 setText(data.text);
                 setReference(data.reference);
                 setLoading(false);
             } catch (error) {
-                console.error("Error fetching verse from Bible API: ", error)
+                console.error(
+                    "Error fetching verse from Bible API: ",
+                    error.message
+                );
                 setLoading(true);
             }
-        }
+        };
 
-        fetchRandomVerse();
         fetchText();
     }, [book, chapter, verse, translation]);
 
     return (
         <div>
             <h1>Verse of the day</h1>
-            {loading ? <p>Loading...</p> : <div><p>{text}</p><small>{reference}</small></div>}
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <div>
+                    <p>{text}</p>
+                    <small>{reference}</small>
+                </div>
+            )}
         </div>
     );
 }
