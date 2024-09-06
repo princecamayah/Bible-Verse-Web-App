@@ -1,10 +1,13 @@
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash
 from config import db
 
-class User(UserMixin, db.Model):
+# User inherits from UserMixin which automatically includes methods like is_authenticated, get_id and more. 
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    role = db.Column(db.String(16), nullable=False, default="user") # role can be either user or admin
 
 class Verse(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,4 +32,14 @@ def populate_database():
     for verse in verses:
         db.session.add(verse)
 
+    db.session.commit()
+
+def populate_users():
+    users = [
+        User(email="admin@gmail.com", password_hash=generate_password_hash("admin"))
+    ]
+
+    for user in users:
+        db.session.add(user)
+    
     db.session.commit()

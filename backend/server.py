@@ -1,10 +1,11 @@
 from flask import jsonify, request
 from config import app, db, login_manager
-from model import Verse, User, populate_database
+from model import Verse, User, populate_database, populate_users
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, logout_user, login_required
 
 # required by flask_login to reload the user object from the user ID stored in the session (database); takes user ID and returns corresponding User from session
+# this @ is required so that login_manager knows to use the load_user function created below to load a user
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -79,5 +80,6 @@ if __name__ == "__main__":
     with app.app_context(): # if the database is not yet created then it must be created
         db.create_all()
         populate_database()
+        populate_users()
         
     app.run(debug=True)
