@@ -72,8 +72,15 @@ def get_random_verse():
 @app.route("/api/users", methods=["GET"])
 def get_users():
     users = User.query.all()
-    user_list = [{"id": user.id, "email": user.email} for user in users]
+    user_list = [{"id": user.id, "email": user.email, "role": user.role} for user in users]
     return jsonify(user_list)
+
+
+@app.route("/api/verses", methods=["GET"])
+def get_verses():
+    verses = Verse.query.all()
+    verse_list = [{"id": verse.id, "book": verse.book, "chapter": verse.chapter, "verse": verse.verse} for verse in verses]
+    return jsonify(verse_list)
     
 
 if __name__ == "__main__":

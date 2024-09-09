@@ -30,16 +30,21 @@ def populate_database():
     ]
 
     for verse in verses:
-        db.session.add(verse)
+        if not (Verse.query.filter_by(book=verse.book, chapter=verse.chapter, verse=verse.verse)).first():
+            db.session.add(verse)
 
     db.session.commit()
 
 def populate_users():
-    users = [
-        User(email="admin@gmail.com", password_hash=generate_password_hash("admin"))
-    ]
 
-    for user in users:
-        db.session.add(user)
+    admin_user = User.query.filter_by(email="admin@gmail.com").first()
+
+    if not admin_user:
+        users = [
+            User(email="admin@gmail.com", password_hash=generate_password_hash("admin"))
+        ]
+
+        for user in users:
+            db.session.add(user)
     
-    db.session.commit()
+        db.session.commit()
