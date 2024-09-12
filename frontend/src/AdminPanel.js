@@ -7,6 +7,7 @@ function AdminPanel() {
     const [message, setMessage] = useState("");
     const [allVerses, setAllVerses] = useState([]);
 
+    // function to check if the verse inputted is actually a real verse: needed because the user can type anything in.
     const validateVerse = async () => {
         try {
             const response = await fetch(
@@ -27,6 +28,7 @@ function AdminPanel() {
         }
     };
 
+    // sends the inputs to the backend api
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -57,6 +59,7 @@ function AdminPanel() {
         }
     };
 
+    // prints out all the verses stored on the database
     useEffect(() => {
         const fetchAllVerses = async () => {
             try {
