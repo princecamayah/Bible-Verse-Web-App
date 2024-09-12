@@ -8,9 +8,11 @@ done:
     - create user register and login
     - create a logout
     - manually hardcode a user with the admin role
+    - implement a role-based user management system such that normal users can view verses but admins can manage/add/remove verses
+
 
 in progress:
-    - implement a role-based user management system such that normal users can view verses but admins can manage/add/remove verses
+    - 
 
 not done:
     - create funcitonality for superuser to add a verse to the database
