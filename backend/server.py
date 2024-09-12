@@ -81,6 +81,30 @@ def get_verses():
     verses = Verse.query.all()
     verse_list = [{"id": verse.id, "book": verse.book, "chapter": verse.chapter, "verse": verse.verse} for verse in verses]
     return jsonify(verse_list)
+
+
+# currently, if a verse is added, frontend needs to be restarted to be considered in random_verse selection
+@app.route("/add_verse", methods=["POST"])
+@login_required
+def add_verse():
+    if current_user.role != "admin":
+        return jsonify({"error": "You do not have access to this page."}), 403
+    
+    data = request.get_json()
+    book = data.get("book")
+    chapter = str(data.get("chapter"))
+    verse = str(data.get("verse"))
+
+    check = Verse.query.filter_by(book=book, chapter=chapter, verse=verse).first()
+
+    if check:
+        return jsonify({"error": "This verse already exists."}), 409
+    
+    new_text = Verse(book=book, chapter=chapter, verse=verse)
+    db.session.add(new_text)
+    db.session.commit()
+
+    return jsonify({"messgae": "Verse successfully added."}), 201
     
 
 if __name__ == "__main__":

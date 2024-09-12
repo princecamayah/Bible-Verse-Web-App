@@ -3,6 +3,7 @@ import Verse from "./Verse";
 import Register from "./Register";
 import Login from "./Login";
 import Logout from "./Logout";
+import AdminPanel from "./AdminPanel";
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             <Login />
             <Logout />
             <Verse />
+            <AdminPanel />
         </div>
     );
 }
