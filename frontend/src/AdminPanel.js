@@ -7,6 +7,22 @@ function AdminPanel() {
     const [message, setMessage] = useState("");
     const [allVerses, setAllVerses] = useState([]);
 
+    // prints out all the verses stored on the database
+    const fetchAllVerses = async () => {
+        try {
+            const response = await fetch("/api/verses");
+            const data = await response.json();
+
+            if (response.ok) {
+                setAllVerses(data);
+            } else {
+                console.error("Failed to fetch all responses.");
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
     // function to check if the verse inputted is actually a real verse: needed because the user can type anything in.
     const validateVerse = async () => {
         try {
@@ -48,6 +64,10 @@ function AdminPanel() {
                 if (response.ok) {
                     console.log(data.message);
                     setMessage(data.message);
+                    setBook("");
+                    setChapter("");
+                    setVerse("");
+                    fetchAllVerses();
                 } else {
                     console.error(data.error);
                     setMessage(data.error);
@@ -75,6 +95,7 @@ function AdminPanel() {
 
             if (response.ok) {
                 console.log(data.message);
+                fetchAllVerses();
             } else {
                 console.error(data.error);
             }
@@ -83,23 +104,7 @@ function AdminPanel() {
         }
     };
 
-    // prints out all the verses stored on the database
     useEffect(() => {
-        const fetchAllVerses = async () => {
-            try {
-                const response = await fetch("/api/verses");
-                const data = await response.json();
-
-                if (response.ok) {
-                    setAllVerses(data);
-                } else {
-                    console.error("Failed to fetch all responses.");
-                }
-            } catch (error) {
-                console.error(error.message);
-            }
-        };
-
         fetchAllVerses();
     }, []);
 
