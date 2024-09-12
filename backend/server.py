@@ -105,6 +105,28 @@ def add_verse():
     db.session.commit()
 
     return jsonify({"message": "Verse successfully added."}), 201
+
+
+@app.route("/remove_verse", methods=["DELETE"])
+@login_required
+def remove_verse():
+    if current_user.role != "admin":
+        return jsonify({"error": "You do not have permission to perform this action."}), 403
+    
+    data = request.get_json()
+    book = data.get("book")
+    chapter = data.get("chapter")
+    verse = data.get("verse")
+
+    item = Verse.query.filter_by(book=book, chapter=chapter, verse=verse).first()
+
+    if not item: # this should never happen but here as a preventative measure
+        return jsonify({"error": "There is no such item that exists in the database to remove."}), 404
+    
+    db.session.delete(item)
+    db.session.commit()
+
+    return jsonify({"message": "Verse successfully removed."}), 201
     
 
 if __name__ == "__main__":
