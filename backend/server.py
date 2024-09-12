@@ -104,7 +104,7 @@ def add_verse():
     db.session.add(new_text)
     db.session.commit()
 
-    return jsonify({"messgae": "Verse successfully added."}), 201
+    return jsonify({"message": "Verse successfully added."}), 201
     
 
 if __name__ == "__main__":
