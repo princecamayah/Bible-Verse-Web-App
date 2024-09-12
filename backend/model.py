@@ -41,7 +41,7 @@ def populate_users():
 
     if not admin_user:
         users = [
-            User(email="admin@gmail.com", password_hash=generate_password_hash("admin"))
+            User(email="admin@gmail.com", password_hash=generate_password_hash("admin"), role="admin")
         ]
 
         for user in users:

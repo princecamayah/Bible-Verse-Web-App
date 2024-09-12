@@ -7,10 +7,10 @@ done:
     - implement translation into the bible-api fetch
     - create user register and login
     - create a logout
+    - manually hardcode a user with the admin role
 
 in progress:
     - implement a role-based user management system such that normal users can view verses but admins can manage/add/remove verses
-    - manually hardcode a user with the admin role
 
 not done:
     - create funcitonality for superuser to add a verse to the database
