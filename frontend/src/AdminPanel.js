@@ -59,6 +59,30 @@ function AdminPanel() {
         }
     };
 
+    const handleRemove = async (book, chapter, verse) => {
+        try {
+            const response = await fetch("/remove_verse", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    book: book,
+                    chapter: chapter,
+                    verse: verse,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log(data.message);
+            } else {
+                console.error(data.error);
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
     // prints out all the verses stored on the database
     useEffect(() => {
         const fetchAllVerses = async () => {
@@ -112,7 +136,23 @@ function AdminPanel() {
             <ul>
                 {allVerses.map((verse, index) => (
                     <li key={index}>
-                        {verse.book} {verse.chapter}:{verse.verse}
+                        <div>
+                            <p>
+                                {verse.book} {verse.chapter}:{verse.verse}
+                            </p>
+                            {/* the function below HAS to be passed as an arrow function otherwise it will run handleRemove immediately, but the arrow function stops this from happening */}
+                            <button
+                                onClick={() =>
+                                    handleRemove(
+                                        verse.book,
+                                        verse.chapter,
+                                        verse.verse
+                                    )
+                                }
+                            >
+                                x
+                            </button>
+                        </div>
                     </li>
                 ))}
             </ul>
