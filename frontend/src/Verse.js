@@ -14,6 +14,29 @@ function Verse() {
     // by default NKJV but user can change it
     const [translation, setTranslation] = useState("kjv");
 
+    const handleAddToFavourites = async (book, chapter, verse) => {
+        try {
+            const response = await fetch("/manage_favourite", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    book: book,
+                    chapter: chapter,
+                    verse: verse,
+                }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log(data.message);
+            } else {
+                console.log(data.error);
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
     // useEffect causes whatever is contained to run on every render e.g. if the state changes
     // however, in this case we use a [] to indicate that we only need to render once, since we are fetching a verse from our database
     useEffect(() => {
@@ -22,9 +45,15 @@ function Verse() {
                 // const response = await fetch("https://bible-api.com/john+3:16");
                 const response = await fetch("/api/random_verse"); // sends a GET request to /api/random_verse and waits for the Response object
                 const data = await response.json(); // JSON response is parsed here i.e. converts response to a JS object
-                setBook(data.book);
-                setChapter(data.chapter);
-                setVerse(data.verse);
+                if (response.ok) {
+                    setBook(data.book);
+                    setChapter(data.chapter);
+                    setVerse(data.verse);
+                } else {
+                    console.error(
+                        "Response was invalid when trying to fetch the random verse."
+                    );
+                }
             } catch (error) {
                 console.error(
                     "Error fetching the book, chapter or verse: ",
@@ -45,9 +74,15 @@ function Verse() {
                     `https://bible-api.com/${book}+${chapter}:${verse}?translation=${translation}`
                 );
                 const data = await response.json();
-                setText(data.text);
-                setReference(data.reference);
-                setLoading(false);
+                if (response.ok) {
+                    setText(data.text);
+                    setReference(data.reference);
+                    setLoading(false);
+                } else {
+                    console.error(
+                        "Response was invalid when fetching verse from Bible API."
+                    );
+                }
             } catch (error) {
                 console.error(
                     "Error fetching verse from Bible API: ",
@@ -69,6 +104,13 @@ function Verse() {
                 <div>
                     <p>{text}</p>
                     <small>{reference}</small>
+                    <button
+                        onClick={() => {
+                            handleAddToFavourites(book, chapter, verse);
+                        }}
+                    >
+                        Add to favourites
+                    </button>
                 </div>
             )}
         </div>
