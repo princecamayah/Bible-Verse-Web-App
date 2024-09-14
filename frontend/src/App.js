@@ -4,6 +4,7 @@ import Register from "./Register";
 import Login from "./Login";
 import Logout from "./Logout";
 import AdminPanel from "./AdminPanel";
+import FavouritesList from "./FavouritesList";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
             <Logout />
             <Verse />
             <AdminPanel />
+            <FavouritesList />
         </div>
     );
 }
