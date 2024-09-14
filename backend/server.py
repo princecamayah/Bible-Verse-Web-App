@@ -127,7 +127,35 @@ def remove_verse():
     db.session.commit()
 
     return jsonify({"message": "Verse successfully removed."}), 201
-    
+
+@app.route("/manage_favourite", methods=["POST"])
+@login_required
+def manage_favourite():
+    data = request.get_json()
+    book = data.get("book")
+    chapter = data.get("chapter")
+    verse = data.get("verse")
+
+    item = Verse.query.filter_by(book=book, chapter=chapter, verse=verse).first()
+
+    if not verse:
+        return jsonify({"error": "Verse not found."}), 404
+
+    if item in current_user.favourites:
+        current_user.favourites.remove(item)
+        db.session.commit()
+        return jsonify({"message": "Verse successfully removed from favourites."}), 200
+    else:
+        current_user.favourites.append(item)
+        db.session.commit()
+        return jsonify({"message": "Verse successfully added to favourites."}), 200
+
+@app.route("/get_favourites", methods=["GET"])
+@login_required
+def get_favourites():
+    favourites = [verse.to_dict() for verse in current_user.favourites] # contains {book, chapter, verse}
+    return jsonify(favourites)
+
 
 if __name__ == "__main__":
     with app.app_context(): # if the database is not yet created then it must be created
