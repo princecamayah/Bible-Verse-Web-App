@@ -9,7 +9,7 @@ function Logout() {
         try {
             const response = await fetch("/logout", {
                 method: "POST",
-                credentials: "include",
+                credentials: "include", // add explanation for this here
             });
 
             if (response.ok) {
