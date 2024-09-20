@@ -8,18 +8,21 @@ done:
     - create user register and login
     - create a logout
     - manually hardcode a user with the admin role
-    - implement a role-based user management system such that normal users can view verses but admins can manage/add/remove verses
-
+    - implement a role-based user management system such that normal users can view verses but admins can add verses
+    - implement ability for admins to remove verses from the database
+    - implement a way for favourites for each user to be stored in the database
+    - for logged in users, display their favourites list
+    - allow the user to add a verse to their favourites list
+    - allow for the user to remove a verse from their favourites list directly from the list
 
 in progress:
-    - 
+    - create a navbar with register, login, logout and favourites there
+    - reorganise components so that they are not all on one page but accessible through routes
+    - begin adding basic stylings
 
 not done:
-    - create funcitonality for superuser to add a verse to the database
-    - create an admin panel such that any current admin can change the role of a registerd user to an admin
-    - create a navbar with register, login, logout and favourites there
-    - for logged in users, have a favourites list section
-    - allow the user to add a verse to their favourites list
+    - create an admin panel such that any current admin can change the role of a registered user to an admin
+    - sort the verses list within the admin panel to be presented in alphabetical order
     - change bible api to a more sophisticated one with more translations
     - allow the user to alter which translation is fetched
     - change random verse implementation to daily verse implementation
