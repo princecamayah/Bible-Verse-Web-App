@@ -33,15 +33,6 @@ function FavouritesList() {
                     reference: data.reference,
                     details: { book: book, chapter: chapter, verse: verse },
                 };
-                // react automatically knows that prevTextList is the old state of textList
-                // setTextList((prevTextList) => [
-                //     ...prevTextList,
-                //     {
-                //         text: data.text,
-                //         reference: data.reference,
-                //         details: { book: book, chapter: chapter, verse: verse },
-                //     },
-                // ]);
             } else {
                 console.error("Response was not valid when fetching text.");
             }
@@ -51,9 +42,6 @@ function FavouritesList() {
     };
 
     const fetchTextList = async (favouritesList) => {
-        // favouritesList.forEach(async (value) => {
-        //     await fetchText(value.book, value.chapter, value.verse);
-        // });
         const fetchedTexts = await Promise.all(
             favouritesList.map((value) =>
                 fetchText(value.book, value.chapter, value.verse)
@@ -62,28 +50,28 @@ function FavouritesList() {
         setTextList(fetchedTexts);
     };
 
-    // const removeFavourite = async (book, chapter, verse) => {
-    //     try {
-    //         const response = await fetch("/manage_favourite", {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({
-    //                 book: book,
-    //                 chapter: chapter,
-    //                 verse: verse,
-    //             }),
-    //         });
-    //         const data = await response.json();
-    //         if (response.ok) {
-    //             fetchFavouritesList();
-    //             console.log(data.message);
-    //         } else {
-    //             console.log(data.error);
-    //         }
-    //     } catch (error) {
-    //         console.error(error.message);
-    //     }
-    // };
+    const removeFavourite = async (book, chapter, verse) => {
+        try {
+            const response = await fetch("/manage_favourite", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    book: book,
+                    chapter: chapter,
+                    verse: verse,
+                }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                fetchFavouritesList();
+                console.log(data.message);
+            } else {
+                console.log(data.error);
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
 
     useEffect(() => {
         fetchFavouritesList();
@@ -102,7 +90,7 @@ function FavouritesList() {
                 <div key={index}>
                     <p>{value.text}</p>
                     <small>{value.reference}</small>
-                    {/* <button
+                    <button
                         onClick={() =>
                             removeFavourite(
                                 value.details.book,
@@ -112,7 +100,7 @@ function FavouritesList() {
                         }
                     >
                         x
-                    </button> */}
+                    </button>
                 </div>
             ))}
         </div>
