@@ -69,26 +69,28 @@ function Verse() {
     // we also include book, chapter and verse in the dependancy array because otherwise, the fetchText would ONLY run when translation changes meaning that this function will never be ran, but once the fetchRandomVerse function runs, the book, chapter and verse state change therefore needs to run fetchText because of that.
     useEffect(() => {
         const fetchText = async () => {
-            try {
-                const response = await fetch(
-                    `https://bible-api.com/${book}+${chapter}:${verse}?translation=${translation}`
-                );
-                const data = await response.json();
-                if (response.ok) {
-                    setText(data.text);
-                    setReference(data.reference);
-                    setLoading(false);
-                } else {
-                    console.error(
-                        "Response was invalid when fetching verse from Bible API."
+            if (book && chapter && verse) {
+                try {
+                    const response = await fetch(
+                        `https://bible-api.com/${book}+${chapter}:${verse}?translation=${translation}`
                     );
+                    const data = await response.json();
+                    if (response.ok) {
+                        setText(data.text);
+                        setReference(data.reference);
+                        setLoading(false);
+                    } else {
+                        console.error(
+                            "Response was invalid when fetching verse from Bible API."
+                        );
+                    }
+                } catch (error) {
+                    console.error(
+                        "Error fetching verse from Bible API: ",
+                        error.message
+                    );
+                    setLoading(true);
                 }
-            } catch (error) {
-                console.error(
-                    "Error fetching verse from Bible API: ",
-                    error.message
-                );
-                setLoading(true);
             }
         };
 
