@@ -4,8 +4,11 @@ function FavouritesList() {
     const [favouritesList, setFavouritesList] = useState([]);
     const [textList, setTextList] = useState([]);
     const [translation, setTranslation] = useState("kjv");
+    const [loadingFavourites, setLoadingFavourites] = useState(true);
+    const [loadingTexts, setLoadingTexts] = useState(true);
 
     const fetchFavouritesList = async () => {
+        setLoadingFavourites(true);
         try {
             const response = await fetch("/get_favourites");
             const data = await response.json();
@@ -18,6 +21,8 @@ function FavouritesList() {
             }
         } catch (error) {
             console.error(error.message);
+        } finally {
+            setLoadingFavourites(false);
         }
     };
 
@@ -35,6 +40,7 @@ function FavouritesList() {
                 };
             } else {
                 console.error("Response was not valid when fetching text.");
+                return null;
             }
         } catch (error) {
             console.error(error.message);
@@ -42,12 +48,14 @@ function FavouritesList() {
     };
 
     const fetchTextList = async (favouritesList) => {
+        setLoadingTexts(true);
         const fetchedTexts = await Promise.all(
             favouritesList.map((value) =>
                 fetchText(value.book, value.chapter, value.verse)
             )
         );
-        setTextList(fetchedTexts);
+        setTextList(fetchedTexts.filter(Boolean));
+        setLoadingTexts(false);
     };
 
     const removeFavourite = async (book, chapter, verse) => {
@@ -86,23 +94,33 @@ function FavouritesList() {
     return (
         <div>
             <h2>Favourites List</h2>
-            {textList.map((value, index) => (
-                <div key={index}>
-                    <p>{value.text}</p>
-                    <small>{value.reference}</small>
-                    <button
-                        onClick={() =>
-                            removeFavourite(
-                                value.details.book,
-                                value.details.chapter,
-                                value.details.verse
-                            )
-                        }
-                    >
-                        x
-                    </button>
-                </div>
-            ))}
+
+            {loadingFavourites || loadingTexts ? (
+                <p>Loading your favourites...</p>
+            ) : favouritesList.length > 0 ? (
+                textList.map(
+                    (value, index) =>
+                        value && (
+                            <div key={index}>
+                                <p>{value.text}</p>
+                                <small>{value.reference}</small>
+                                <button
+                                    onClick={() =>
+                                        removeFavourite(
+                                            value.details.book,
+                                            value.details.chapter,
+                                            value.details.verse
+                                        )
+                                    }
+                                >
+                                    x
+                                </button>
+                            </div>
+                        )
+                )
+            ) : (
+                <p>No favourites available.</p>
+            )}
         </div>
     );
 }
