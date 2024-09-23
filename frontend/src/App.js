@@ -1,4 +1,5 @@
 import React from "react";
+import { AppBar, Container } from "@mui/material";
 import Verse from "./Verse";
 import Register from "./Register";
 import Login from "./Login";
@@ -8,14 +9,14 @@ import FavouritesList from "./FavouritesList";
 
 function App() {
     return (
-        <div>
+        <Container>
             <Register />
             <Login />
             <Logout />
             <Verse />
             <AdminPanel />
             <FavouritesList />
-        </div>
+        </Container>
     );
 }
 
